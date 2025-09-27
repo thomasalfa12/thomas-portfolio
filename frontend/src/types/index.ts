@@ -16,10 +16,11 @@ export type Profile = {
   headline: string;
   bio: string;
   profileImage: SanityImage;
-  // ▼▼▼ TAMBAHKAN TIGA PROPERTI INI ▼▼▼
   shortIntro?: string;
   ctaButtonText?: string;
   ctaButtonLink?: string;
+  // ▼▼▼ TAMBAHKAN PROPERTI INI ▼▼▼
+  dynamicHeadlines?: string[];
 };
 
 export type Experience = {

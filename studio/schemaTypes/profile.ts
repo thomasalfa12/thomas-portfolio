@@ -63,6 +63,13 @@ export default defineType({
       },
       initialValue: 'projects',
       validation: Rule => Rule.required()
-  })
+  }),
+  defineField({
+    name: 'dynamicHeadlines',
+    title: 'Daftar Headline Dinamis',
+    type: 'array',
+    description: 'Teks yang akan ditampilkan bergantian. Contoh: Full-Stack Developer, Web3 Enthusiast, dll.',
+    of: [{type: 'string'}]
+})
   ],
 })

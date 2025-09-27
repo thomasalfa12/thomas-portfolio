@@ -54,7 +54,7 @@ export function HeroSection({ profile, setActiveSection }: HeroProps) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
-      className="w-full flex items-center min-h-[70vh] pt-12 md:pt-0"
+      className="w-full flex-grow flex items-center"
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         {/* Kolom Kiri: Gambar Profil */}
@@ -104,7 +104,8 @@ export function HeroSection({ profile, setActiveSection }: HeroProps) {
             variants={itemVariants}
             className="mt-4 font-heading text-2xl md:text-3xl font-semibold text-foreground"
           >
-            {profile?.shortIntro} <DynamicHeadline />
+            {profile?.shortIntro}{" "}
+            <DynamicHeadline headlines={profile?.dynamicHeadlines} />
           </motion.h2>
           <motion.p
             variants={itemVariants}
