@@ -3,13 +3,15 @@
 import { motion, Variants } from "framer-motion";
 import Image from "next/image";
 import DynamicHeadline from "@/components/dynamic-headline";
-import { Profile } from "@/types";
+import { Profile, SectionId } from "@/types";
 import { urlForImage } from "@/sanity/lib/image";
 import { ArrowRight } from "lucide-react";
+import React from "react";
 
 // Definisikan tipe untuk props
 interface HeroProps {
   profile: Profile;
+  setActiveSection: React.Dispatch<React.SetStateAction<SectionId>>;
 }
 
 // Varian animasi untuk stagger effect
@@ -17,16 +19,34 @@ const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.2, delayChildren: 0.3 },
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.3,
+    },
   },
 };
 
 const itemVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100 } },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "spring",
+      stiffness: 100,
+    },
+  },
 };
 
-export function HeroSection({ profile }: HeroProps) {
+export function HeroSection({ profile, setActiveSection }: HeroProps) {
+  // Handler untuk klik tombol
+  const handleCtaClick = () => {
+    if (profile?.ctaButtonLink) {
+      // Mengubah seksi aktif di ClientPage
+      setActiveSection(profile.ctaButtonLink as SectionId);
+    }
+  };
+
   return (
     <motion.div
       key="home"
@@ -34,7 +54,7 @@ export function HeroSection({ profile }: HeroProps) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
-      className="w-full flex-grow flex items-center"
+      className="w-full flex items-center min-h-[70vh] pt-12 md:pt-0"
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         {/* Kolom Kiri: Gambar Profil */}
@@ -59,6 +79,7 @@ export function HeroSection({ profile }: HeroProps) {
                   .url()}
                 alt={profile.name || "Foto Profil"}
                 fill
+                sizes="(max-width: 768px) 256px, 320px"
                 className="object-cover rounded-full border-4 border-card shadow-xl"
                 priority
               />
@@ -83,9 +104,8 @@ export function HeroSection({ profile }: HeroProps) {
             variants={itemVariants}
             className="mt-4 font-heading text-2xl md:text-3xl font-semibold text-foreground"
           >
-            Saya seorang <DynamicHeadline />
+            {profile?.shortIntro} <DynamicHeadline />
           </motion.h2>
-          {/* PERBAIKAN: Tambahkan 'text-justify' di sini */}
           <motion.p
             variants={itemVariants}
             className="mt-6 text-lg md:text-xl max-w-xl mx-auto md:mx-0 text-muted-foreground text-justify"
@@ -96,12 +116,12 @@ export function HeroSection({ profile }: HeroProps) {
             variants={itemVariants}
             className="mt-8 flex flex-wrap justify-center md:justify-start gap-4"
           >
-            <a
-              href="#"
+            <button
+              onClick={handleCtaClick}
               className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-semibold py-3 px-8 rounded-lg shadow-lg hover:bg-primary/90 transition-colors"
             >
-              Lihat Proyek <ArrowRight className="w-4 h-4" />
-            </a>
+              {profile?.ctaButtonText} <ArrowRight className="w-4 h-4" />
+            </button>
           </motion.div>
         </motion.div>
       </div>

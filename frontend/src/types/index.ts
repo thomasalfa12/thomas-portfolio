@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 // Tipe untuk data Sanity Image
-type SanityImage = {
+export type SanityImage = {
   _type: 'image';
   asset: {
     _ref: string;
@@ -16,6 +16,10 @@ export type Profile = {
   headline: string;
   bio: string;
   profileImage: SanityImage;
+  // ▼▼▼ TAMBAHKAN TIGA PROPERTI INI ▼▼▼
+  shortIntro?: string;
+  ctaButtonText?: string;
+  ctaButtonLink?: string;
 };
 
 export type Experience = {
@@ -32,9 +36,9 @@ export type Project = {
   name: string;
   description: string;
   projectUrl?: string;
-  githubUrl?: string; // <-- 1. Tambahkan ini
-  thumbnail?: SanityImage; // <-- 2. Jadikan opsional dengan '?'
-  tags?: string[]; // <-- Jadikan opsional dengan '?'
+  githubUrl?: string;
+  thumbnail?: SanityImage;
+  tags?: string[];
 };
 
 export type Credential = {
@@ -42,9 +46,24 @@ export type Credential = {
   title: string;
   issuer: string;
   thumbnail: SanityImage;
-  // 'pdfUrl' sekarang akan menjadi string URL yang bersih setelah diproses
-  pdfUrl?: string; 
+  pdfUrl?: string;
 };
+
+// Tipe untuk data Contact dari Sanity
+export type ContactLink = {
+  _key: string;
+  label: string;
+  href: string;
+  linkType: 'email' | 'linkedin' | 'github';
+};
+
+export type ContactInfo = {
+  _id: string;
+  title: string;
+  description: string;
+  links: ContactLink[];
+};
+
 
 // --- TIPE DATA UNTUK UI ---
 export type SectionId = 'home' | 'experience' | 'projects' | 'credentials' | 'contact';
@@ -58,6 +77,7 @@ export type Section = DockSection & {
   component: ReactNode;
 };
 
+// Tipe untuk repo dari GitHub
 export type GithubRepo = {
   id: string;
   name: string;

@@ -5,7 +5,8 @@ import { Profile, Experience, Project, Credential, GithubRepo } from "@/types";
 
 // --- PROFILE ---
 export async function getProfile(): Promise<Profile> {
-  const query = `*[_type == "profile"][0]`;
+  // Query-nya tidak perlu diubah, karena `...` sudah mengambil semua field
+  const query = `*[_type == "profile"][0]`; 
   const data = await client.fetch(query);
   return data;
 }

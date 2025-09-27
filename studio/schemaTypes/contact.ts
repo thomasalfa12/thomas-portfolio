@@ -9,13 +9,13 @@ export default defineType({
   fields: [
     defineField({
       name: 'title',
-      title: 'Judul',
+      title: 'Judul (English)',
       type: 'string',
-      initialValue: 'Let\'s Collaborate',
+      initialValue: 'Let\'s Collaborate!',
     }),
     defineField({
       name: 'description',
-      title: 'Deskripsi',
+      title: 'Deskripsi (English)',
       type: 'text',
       rows: 3,
     }),
@@ -23,38 +23,33 @@ export default defineType({
       name: 'links',
       title: 'Tautan Kontak',
       type: 'array',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            defineField({
-              name: 'label',
-              title: 'Label Tombol',
-              type: 'string',
-              description: 'Contoh: Email Me',
-            }),
-            defineField({
-              name: 'href',
-              title: 'URL/Link',
-              type: 'string',
-              description: 'Contoh: mailto:email@anda.com',
-            }),
-            defineField({
-              name: 'linkType',
-              title: 'Tipe Tombol',
-              type: 'string',
-              options: {
-                list: [
-                  {title: 'Email (Utama)', value: 'email'},
-                  {title: 'Lainnya (Sekunder)', value: 'other'},
-                ],
-                layout: 'radio'
-              },
-              initialValue: 'other'
-            }),
-          ],
-        },
-      ],
+      of: [{
+        type: 'object',
+        fields: [
+          defineField({
+            name: 'label',
+            title: 'Label',
+            type: 'string'
+          }),
+          defineField({
+            name: 'href',
+            title: 'URL',
+            type: 'string'
+          }),
+          defineField({
+            name: 'linkType',
+            title: 'Tipe Tautan (untuk Ikon & Style)',
+            type: 'string',
+            options: {
+              list: [
+                {title: 'Email (Tombol Utama)', value: 'email'},
+                {title: 'LinkedIn', value: 'linkedin'},
+                {title: 'GitHub', value: 'github'},
+              ],
+            },
+          }),
+        ],
+      }],
     }),
   ],
 })

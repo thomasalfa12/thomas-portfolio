@@ -18,8 +18,11 @@ import {
   Credential,
   SectionId,
   DockSection,
+  // ▼▼▼ Ganti ContactData menjadi ContactInfo ▼▼▼
+  ContactInfo,
 } from "@/types";
-import { Skill, ContactData } from "@/data/content";
+// ▼▼▼ Hapus ContactData dari sini ▼▼▼
+import { Skill } from "@/data/content";
 
 interface ClientPageProps {
   profile: Profile;
@@ -28,7 +31,8 @@ interface ClientPageProps {
   sanityProjects: SanityProject[];
   githubRepos: GithubRepo[];
   credentials: Credential[];
-  contactInfo: ContactData;
+  // Gunakan tipe ContactInfo
+  contactInfo: ContactInfo;
 }
 
 export default function ClientPage({
@@ -57,7 +61,7 @@ export default function ClientPage({
     (): Record<SectionId, ReactNode> => ({
       home: (
         <div className="w-full h-full flex flex-col overflow-y-auto scrollbar-hide">
-          <HeroSection profile={profile} />
+          <HeroSection profile={profile} setActiveSection={setActiveSection} />
           <SkillsSection skills={skills} />
         </div>
       ),
@@ -79,18 +83,17 @@ export default function ClientPage({
       githubRepos,
       credentials,
       contactInfo,
+      setActiveSection,
     ]
   );
 
   return (
     <main className="relative w-full min-h-screen flex flex-col items-center justify-center bg-background p-4 md:p-6">
-      {/* ▼▼▼ PERBAIKAN UTAMA DI SINI ▼▼▼ */}
-      <div className="w-full max-w-6xl h-[85vh] flex-grow">
+      <div className="w-full max-w-6xl h-[90vh] flex-grow">
         <AnimatePresence mode="wait">
           {sectionComponents[activeSection]}
         </AnimatePresence>
       </div>
-
       <InteractiveDock
         sections={sections}
         activeSection={activeSection}
