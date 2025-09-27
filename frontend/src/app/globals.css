@@ -1,0 +1,51 @@
+@import "tailwindcss";
+@plugin "tailwindcss-animate";
+
+@theme {
+  --radius: 0.75rem;
+
+  /* PALET WARNA UTAMA SESUAI PROMPT AWAL */
+  --color-background: oklch(0.978 0.003 99.5);  /* Ivory #F8F7F4 */
+  --color-foreground: oklch(0.35 0.033 258.5); /* Charcoal #2D3748 */
+  
+  --color-card: oklch(1 0 0);                 /* White #FFFFFF */
+  --color-card-foreground: oklch(0.35 0.033 258.5);
+
+  --color-primary: oklch(0.42 0.16 261.6);     /* Cobalt Blue #0047AB */
+  --color-primary-foreground: oklch(0.978 0.003 99.5); /* Ivory */
+  
+  --color-secondary: oklch(0.95 0.012 258.6);  /* Light Gray #F1F5F9 */
+  --color-secondary-foreground: oklch(0.35 0.033 258.5);
+
+  --color-muted: oklch(0.95 0.012 258.6);
+  --color-muted-foreground: oklch(0.51 0.024 258.4); /* Slate #64748B */
+
+  --color-border: oklch(0.92 0.012 258.6);     /* Light Gray #E2E8F0 */
+  --color-input: oklch(0.92 0.012 258.6);
+  --color-ring: oklch(0.42 0.16 261.6);
+  --color-glass-bg: oklch(1 0 0 / 0.1);      /* Latar Kaca: Putih 10% opacity */
+  --color-glass-border: oklch(1 0 0 / 0.2); 
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer utilities {
+  /* ... utility lain jika ada ... */
+  
+  /* Tambahkan ini untuk menghilangkan scrollbar */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+}
