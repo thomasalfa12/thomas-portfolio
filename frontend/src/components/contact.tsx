@@ -1,11 +1,30 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ContactData } from "@/data/content"; // Impor tipe dari content.ts
+import { ContactInfo, ContactLink } from "@/types";
+import { Mail, Linkedin, Github } from "lucide-react";
+import React from "react";
 
 interface ContactProps {
-  contactInfo: ContactData;
+  contactInfo: ContactInfo;
 }
+
+// PETA IKON & LABEL: Kunci untuk otomatisasi
+// Kita definisikan ikon dan label default di sini berdasarkan 'linkType' dari Sanity
+const linkDetailsMap = {
+  email: {
+    label: "Email",
+    icon: <Mail className="mr-2 h-4 w-4" />,
+  },
+  linkedin: {
+    label: "LinkedIn",
+    icon: <Linkedin className="mr-2 h-4 w-4" />,
+  },
+  github: {
+    label: "GitHub",
+    icon: <Github className="mr-2 h-4 w-4" />,
+  },
+};
 
 export function Contact({ contactInfo }: ContactProps) {
   if (!contactInfo) return null;
@@ -27,24 +46,29 @@ export function Contact({ contactInfo }: ContactProps) {
           {contactInfo.description}
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-4">
-          {contactInfo.links.map((link) => (
-            <motion.a
-              key={link.type}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`inline-flex items-center justify-center px-6 py-3 rounded-lg font-semibold transition-colors ${
-                link.type === "email"
-                  ? "bg-primary text-primary-foreground hover:bg-primary/90"
-                  : "bg-card border hover:bg-secondary"
-              }`}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {/* Langsung render ikon dari JSX */}
-              {link.icon} {link.label}
-            </motion.a>
-          ))}
+          {contactInfo.links?.map((link: ContactLink) => {
+            // Ambil detail (ikon & label) dari peta berdasarkan tipenya
+            const details =
+              linkDetailsMap[link.linkType] || linkDetailsMap.email;
+
+            return (
+              <motion.a
+                key={link._key}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`inline-flex items-center justify-center px-6 py-3 rounded-lg font-semibold transition-colors ${
+                  link.linkType === "email"
+                    ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                    : "bg-card border hover:bg-secondary"
+                }`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {details.icon} {details.label}
+              </motion.a>
+            );
+          })}
         </div>
       </div>
     </motion.div>
