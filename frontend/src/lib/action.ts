@@ -1,7 +1,7 @@
 "use server";
 
 import { client } from "@/sanity/lib/client";
-import { Profile, Experience, Project, Credential, GithubRepo } from "@/types";
+import { Profile, Experience, Project, Credential, GithubRepo,  ContactInfo  } from "@/types";
 
 // --- PROFILE ---
 export async function getProfile(): Promise<Profile> {
@@ -75,4 +75,10 @@ export async function getAllGithubRepos(): Promise<GithubRepo[]> {
     console.error('Failed to fetch all GitHub repos:', error);
     return [];
   }
+
+}
+export async function getContactInfo(): Promise<ContactInfo> {
+  const query = `*[_type == "contact"][0]`;
+  const data = await client.fetch(query);
+  return data;
 }

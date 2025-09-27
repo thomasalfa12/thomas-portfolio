@@ -1,22 +1,32 @@
+// HANYA impor 'skillsData' dari content.ts
+import { skillsData } from "@/data/content";
 import {
   getProfile,
   getExperiences,
   getProjects,
   getCredentials,
   getAllGithubRepos,
+  getContactInfo, // Impor fungsi untuk mengambil data kontak
 } from "@/lib/action";
-import { skillsData, contactData } from "@/data/content";
 import ClientPage from "./ClientPage";
 
 export default async function Home() {
-  const [profile, experiences, sanityProjects, allGithubRepos, credentials] =
-    await Promise.all([
-      getProfile(),
-      getExperiences(),
-      getProjects(),
-      getAllGithubRepos(),
-      getCredentials(),
-    ]);
+  // Ambil SEMUA data dinamis, termasuk contactInfo, dari Sanity
+  const [
+    profile,
+    experiences,
+    sanityProjects,
+    allGithubRepos,
+    credentials,
+    contactInfo,
+  ] = await Promise.all([
+    getProfile(),
+    getExperiences(),
+    getProjects(),
+    getAllGithubRepos(),
+    getCredentials(),
+    getContactInfo(), // Panggil action untuk data kontak
+  ]);
 
   return (
     <ClientPage
@@ -25,8 +35,8 @@ export default async function Home() {
       sanityProjects={sanityProjects}
       githubRepos={allGithubRepos}
       credentials={credentials}
-      skills={skillsData}
-      contactInfo={contactData}
+      skills={skillsData} // Berikan data skill statis
+      contactInfo={contactInfo} // Berikan data kontak dinamis dari Sanity
     />
   );
 }
