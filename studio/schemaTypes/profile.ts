@@ -9,18 +9,18 @@ export default defineType({
   fields: [
     defineField({
       name: 'name',
-      title: 'Nama Lengkap (English)',
+      title: 'Nama Lengkap',
       type: 'string',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'headline',
-      title: 'Headline (English)',
+      title: 'Headline',
       type: 'string',
-      description: 'Contoh: Full-Stack Developer & SME Web Specialist',
+      description: 'Contoh: Full-Stack Developer & UMKM Web Specialist',
       validation: (Rule) => Rule.required(),
     }),
-    defineField({
+     defineField({
       name: 'shortIntro',
       title: 'Intro Singkat (untuk Dynamic Headline)',
       type: 'string',
@@ -29,7 +29,7 @@ export default defineType({
     }),
     defineField({
       name: 'bio',
-      title: 'Bio Singkat (English)',
+      title: 'Bio Singkat',
       type: 'text',
       rows: 4,
     }),
@@ -38,38 +38,46 @@ export default defineType({
       title: 'Foto Profil',
       type: 'image',
       options: {hotspot: true},
+      // ▼▼▼ TAMBAHKAN FIELD INI ▼▼▼
+      fields: [
+        {
+          name: 'alt',
+          title: 'Alternative Text',
+          type: 'string',
+          description: 'Deskripsi singkat tentang gambar (penting untuk SEO & aksesibilitas).',
+        }
+      ],
       validation: (Rule) => Rule.required(),
     }),
-    defineField({
+     defineField({
       name: 'ctaButtonText',
       title: 'Teks Tombol CTA',
       type: 'string',
       description: 'Contoh: "View Projects" atau "Lihat Proyek"',
       initialValue: 'View Projects'
     }),
-
     defineField({
-      name: 'ctaButtonLink',
-      title: 'Link Tombol CTA',
-      description: 'Pilih seksi tujuan saat tombol di-klik',
-      type: 'string',
-      options: {
-          list: [
-              {title: 'Projects', value: 'projects'},
-              {title: 'Experience', value: 'experience'},
-              {title: 'Credentials', value: 'credentials'},
-              {title: 'Contact', value: 'contact'},
-          ]
-      },
-      initialValue: 'projects',
-      validation: Rule => Rule.required()
-  }),
-  defineField({
-    name: 'dynamicHeadlines',
-    title: 'Daftar Headline Dinamis',
-    type: 'array',
-    description: 'Teks yang akan ditampilkan bergantian. Contoh: Full-Stack Developer, Web3 Enthusiast, dll.',
-    of: [{type: 'string'}]
-})
+        name: 'ctaButtonLink',
+        title: 'Link Tombol CTA',
+        description: 'Pilih seksi tujuan saat tombol di-klik',
+        type: 'string',
+        options: {
+            list: [
+                {title: 'Projects', value: 'projects'},
+                {title: 'Experience', value: 'experience'},
+                {title: 'Credentials', value: 'credentials'},
+                {title: 'Contact', value: 'contact'},
+            ]
+        },
+        initialValue: 'projects',
+        validation: Rule => Rule.required()
+    }),
+     defineField({
+        name: 'dynamicHeadlines',
+        title: 'Daftar Headline Dinamis',
+        type: 'array',
+        description: 'Teks yang akan ditampilkan bergantian. Contoh: Full-Stack Developer, Web3 Enthusiast, dll.',
+        of: [{type: 'string'}]
+    })
   ],
 })

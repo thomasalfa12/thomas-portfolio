@@ -1,11 +1,11 @@
 import {defineField, defineType} from 'sanity'
-import {UserIcon} from '@sanity/icons'
+import {BookIcon} from '@sanity/icons'
 
 export default defineType({
   name: 'experience',
   title: 'Experience',
   type: 'document',
-  icon: UserIcon,
+  icon: BookIcon,
   fields: [
     defineField({
       name: 'title',
@@ -20,40 +20,43 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'experienceType',
-      title: 'Experience Type',
-      type: 'string',
-      options: {
-        list: [
-          {title: 'Work', value: 'work'},
-          {title: 'Organization', value: 'organization'},
-        ],
-        layout: 'radio',
-      },
-    }),
-    defineField({
       name: 'date',
       title: 'Date Range',
       type: 'string',
     }),
     defineField({
-      name: 'description',
-      title: 'Description',
+      name: 'summary',
+      title: 'Summary',
+      description: 'Ringkasan singkat yang akan muncul di kartu carousel.',
       type: 'text',
-      rows: 4,
+      rows: 3,
       validation: (Rule) => Rule.required(),
     }),
-     defineField({
+    defineField({
+      name: 'content',
+      title: 'Detail Content',
+      description: 'Konten lengkap yang akan ditampilkan di dalam modal. Anda bisa menambahkan gambar, teks tebal, miring, dll.',
+      type: 'array',
+      of: [
+        {type: 'block'},
+        {
+          type: 'image',
+          options: {hotspot: true},
+          // ▼▼▼ TAMBAHKAN FIELD INI ▼▼▼
+          fields: [
+            {
+              name: 'alt',
+              title: 'Alternative Text',
+              type: 'string',
+            }
+          ]
+        },
+      ],
+    }),
+    defineField({
       name: 'order',
       title: 'Order',
       type: 'number',
-      description: 'Gunakan untuk mengurutkan. Angka lebih kecil tampil lebih dulu.',
     }),
   ],
-  preview: {
-    select: {
-      title: 'title',
-      subtitle: 'company',
-    },
-  },
 })

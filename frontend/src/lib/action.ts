@@ -13,7 +13,15 @@ export async function getProfile(): Promise<Profile> {
 
 // --- EXPERIENCES ---
 export async function getExperiences(): Promise<Experience[]> {
-  const query = `*[_type == "experience"] | order(order asc)`;
+  // Ambil field 'summary' dan 'content' yang baru
+  const query = `*[_type == "experience"]{
+    _id,
+    title,
+    company,
+    date,
+    summary,
+    content
+  } | order(order asc)`;
   const data = await client.fetch(query);
   return data;
 }

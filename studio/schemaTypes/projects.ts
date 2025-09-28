@@ -26,7 +26,14 @@ export default defineType({
       type: 'image',
       description: 'Gambar preview untuk proyek. Ukuran rekomendasi 1280x720px.',
       options: {hotspot: true},
-      // PERUBAHAN: Jadikan field ini wajib diisi
+      // ▼▼▼ TAMBAHKAN FIELD INI ▼▼▼
+      fields: [
+        {
+          name: 'alt',
+          title: 'Alternative Text',
+          type: 'string',
+        }
+      ],
       validation: (Rule) => Rule.required(),
     }),
     defineField({

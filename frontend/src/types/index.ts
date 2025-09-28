@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import type { PortableTextBlock } from "sanity"; 
 
 // Tipe untuk data Sanity Image
 export type SanityImage = {
@@ -7,6 +8,8 @@ export type SanityImage = {
     _ref: string;
     _type: 'reference';
   };
+  // ▼▼▼ TAMBAHKAN PROPERTI OPSIONAL INI ▼▼▼
+  alt?: string;
 };
 
 // --- TIPE DATA DARI SANITY ---
@@ -23,12 +26,15 @@ export type Profile = {
   dynamicHeadlines?: string[];
 };
 
+
 export type Experience = {
   _id: string;
   title: string;
   company: string;
   date: string;
-  description: string;
+  summary: string;
+  // 2. Ganti 'any[]' dengan 'PortableTextBlock[]'
+  content: PortableTextBlock[]; 
   experienceType?: string;
 };
 
