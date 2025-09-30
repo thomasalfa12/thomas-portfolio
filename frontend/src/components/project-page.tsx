@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Project as SanityProject, GithubRepo } from "@/types";
 import { FeaturedCarousel } from "./featured-carousel";
 import { GithubActivityPage } from "./github-activity-page";
@@ -30,49 +30,62 @@ export function ProjectsPage({
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.4, ease: "easeInOut" }}
-      className="w-full h-full flex flex-col"
+      className="w-full h-full flex flex-col overflow-hidden max-w-7xl mx-auto"
     >
-      <div className="text-center mb-4">
-        <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground">
+      {/* Header - Fixed height */}
+      <div className="text-center flex-shrink-0 px-4 pt-4 pb-3">
+        <h2 className="font-heading text-2xl md:text-3xl font-bold text-foreground mb-1">
           My Projects
         </h2>
+        <p className="text-sm md:text-base text-muted-foreground max-w-2xl mx-auto">
+          Jelajahi karya-karya pilihan atau lihat semua arsip saya.
+        </p>
       </div>
 
-      {/* ▼▼▼ PERBAIKAN UTAMA PADA TOGGLE DI SINI ▼▼▼ */}
-      <div className="flex justify-center">
-        <div className="flex items-center gap-2 p-1 rounded-full bg-secondary">
+      {/* Tab Switcher - Fixed height */}
+      <div className="flex justify-center mb-4 flex-shrink-0">
+        <div className="flex relative items-center gap-1 p-1 rounded-full bg-secondary/50 backdrop-blur-sm border border-border shadow-sm">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setView(tab.id as ViewMode)}
-              // 'relative' penting untuk posisi pill
-              className={`relative px-4 py-2 text-sm font-semibold rounded-full transition-colors ${
+              className={`relative px-5 py-1.5 text-sm font-semibold rounded-full transition-all z-10 ${
                 view === tab.id
                   ? "text-foreground"
                   : "text-muted-foreground hover:text-foreground/80"
               }`}
             >
-              {/* Pill sekarang ada di dalam tombol yang aktif */}
               {view === tab.id && (
                 <motion.div
                   layoutId="project-toggle-pill"
-                  className="absolute inset-0 bg-card rounded-full shadow"
+                  className="absolute inset-0 bg-card border border-border rounded-full shadow-md"
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />
               )}
-              {/* Teks harus relatif agar berada di atas pill */}
-              <span className="relative z-10">{tab.label}</span>
+              <span className="relative">{tab.label}</span>
             </button>
           ))}
         </div>
       </div>
 
-      <div className="flex-grow relative overflow-hidden">
-        {view === "featured" ? (
-          <FeaturedCarousel projects={sanityProjects} />
-        ) : (
-          <GithubActivityPage githubRepos={githubRepos} />
-        )}
+      {/* Content Area - Takes remaining space */}
+      <div className="flex-grow min-h-0 overflow-hidden pb-4 px-2">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={view}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+            className="w-full h-full"
+          >
+            {view === "featured" ? (
+              <FeaturedCarousel projects={sanityProjects} />
+            ) : (
+              <GithubActivityPage githubRepos={githubRepos} />
+            )}
+          </motion.div>
+        </AnimatePresence>
       </div>
     </motion.div>
   );

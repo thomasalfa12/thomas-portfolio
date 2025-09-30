@@ -18,10 +18,8 @@ import {
   Credential,
   SectionId,
   DockSection,
-  // ▼▼▼ Ganti ContactData menjadi ContactInfo ▼▼▼
   ContactInfo,
 } from "@/types";
-// ▼▼▼ Hapus ContactData dari sini ▼▼▼
 import { Skill } from "@/data/content";
 
 interface ClientPageProps {
@@ -31,7 +29,6 @@ interface ClientPageProps {
   sanityProjects: SanityProject[];
   githubRepos: GithubRepo[];
   credentials: Credential[];
-  // Gunakan tipe ContactInfo
   contactInfo: ContactInfo;
 }
 
@@ -88,12 +85,14 @@ export default function ClientPage({
   );
 
   return (
-    <main className="relative w-full min-h-screen flex flex-col items-center justify-center bg-background p-4 md:p-6">
-      <div className="w-full max-w-6xl h-[90vh] flex-grow">
+    <main className="relative w-full min-h-screen flex flex-col items-center bg-background px-4 md:px-6">
+      {/* Kontainer utama yang simpel dengan padding bawah untuk dock */}
+      <div className="w-full max-w-6xl flex-grow pt-8 pb-24">
         <AnimatePresence mode="wait">
           {sectionComponents[activeSection]}
         </AnimatePresence>
       </div>
+
       <InteractiveDock
         sections={sections}
         activeSection={activeSection}

@@ -44,6 +44,7 @@ export type Experience = {
 export type Project = {
   _id: string;
   name: string;
+  status?: 'live' | 'development' | 'archived'; // <-- Tambahkan ini
   description: string;
   projectUrl?: string;
   githubUrl?: string;

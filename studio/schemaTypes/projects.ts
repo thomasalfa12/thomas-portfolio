@@ -14,6 +14,20 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'status',
+      title: 'Status Proyek',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Live', value: 'live'},
+          {title: 'In Development', value: 'development'},
+          {title: 'Archived', value: 'archived'},
+        ],
+        layout: 'radio'
+      },
+      initialValue: 'live',
+    }),
+    defineField({
       name: 'description',
       title: 'Deskripsi Singkat',
       type: 'text',
