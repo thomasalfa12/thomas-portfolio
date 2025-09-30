@@ -5,7 +5,7 @@ import {
   getExperiences,
   getProjects,
   getCredentials,
-  getAllGithubRepos,
+  getGithubPinnedRepos,
   getContactInfo, // Impor fungsi untuk mengambil data kontak
 } from "@/lib/action";
 import ClientPage from "./ClientPage";
@@ -23,7 +23,7 @@ export default async function Home() {
     getProfile(),
     getExperiences(),
     getProjects(),
-    getAllGithubRepos(),
+    getGithubPinnedRepos(),
     getCredentials(),
     getContactInfo(), // Panggil action untuk data kontak
   ]);
