@@ -5,7 +5,7 @@ import Image from "next/image";
 import DynamicHeadline from "@/components/dynamic-headline";
 import { Profile, SectionId } from "@/types";
 import { urlForImage } from "@/sanity/lib/image";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Download } from "lucide-react";
 import React from "react";
 
 // Definisikan tipe untuk props
@@ -39,12 +39,54 @@ const itemVariants: Variants = {
 };
 
 export function HeroSection({ profile, setActiveSection }: HeroProps) {
-  // Handler untuk klik tombol
-  const handleCtaClick = () => {
-    if (profile?.ctaButtonLink) {
-      // Mengubah seksi aktif di ClientPage
-      setActiveSection(profile.ctaButtonLink as SectionId);
+  // Cek apakah teks tombol mengandung kata "cv" untuk mengganti ikon
+  const isCtaForCv = profile?.ctaButtonText?.toLowerCase().includes("cv");
+
+  // Fungsi untuk merender tombol CTA berdasarkan data dari Sanity
+  const renderCtaButton = () => {
+    // Jika aksinya adalah link internal
+    if (
+      profile?.ctaButtonActionType === "internal" &&
+      profile.ctaInternalLink
+    ) {
+      return (
+        <button
+          onClick={() => setActiveSection(profile.ctaInternalLink as SectionId)}
+          className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-semibold py-3 px-8 rounded-lg shadow-lg hover:bg-primary/90 transition-colors"
+        >
+          {profile.ctaButtonText} <ArrowRight className="w-4 h-4" />
+        </button>
+      );
     }
+
+    // Jika aksinya adalah link eksternal (termasuk CV)
+    if (profile?.ctaButtonActionType === "external") {
+      // Prioritaskan file CV yang diunggah, jika tidak ada, gunakan URL eksternal
+      const targetUrl = profile.cvUrl || profile.ctaExternalUrl;
+      if (!targetUrl) return null;
+
+      return (
+        <a
+          href={targetUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          // Tambahkan atribut 'download' jika tombolnya untuk CV
+          download={isCtaForCv}
+          className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-semibold py-3 px-8 rounded-lg shadow-lg hover:bg-primary/90 transition-colors"
+        >
+          {profile.ctaButtonText}
+          {/* Ganti ikon secara otomatis jika untuk CV */}
+          {isCtaForCv ? (
+            <Download className="w-4 h-4" />
+          ) : (
+            <ArrowRight className="w-4 h-4" />
+          )}
+        </a>
+      );
+    }
+
+    // Jangan render tombol jika tidak ada aksi yang valid
+    return null;
   };
 
   return (
@@ -117,12 +159,7 @@ export function HeroSection({ profile, setActiveSection }: HeroProps) {
             variants={itemVariants}
             className="mt-8 flex flex-wrap justify-center md:justify-start gap-4"
           >
-            <button
-              onClick={handleCtaClick}
-              className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-semibold py-3 px-8 rounded-lg shadow-lg hover:bg-primary/90 transition-colors"
-            >
-              {profile?.ctaButtonText} <ArrowRight className="w-4 h-4" />
-            </button>
+            {renderCtaButton()}
           </motion.div>
         </motion.div>
       </div>

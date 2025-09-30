@@ -49,35 +49,71 @@ export default defineType({
       ],
       validation: (Rule) => Rule.required(),
     }),
-     defineField({
+         
+    defineField({
       name: 'ctaButtonText',
       title: 'Teks Tombol CTA',
       type: 'string',
-      description: 'Contoh: "View Projects" atau "Lihat Proyek"',
       initialValue: 'View Projects'
     }),
+
+    // --- PERUBAHAN UTAMA DI SINI ---
     defineField({
-        name: 'ctaButtonLink',
-        title: 'Link Tombol CTA',
-        description: 'Pilih seksi tujuan saat tombol di-klik',
-        type: 'string',
-        options: {
-            list: [
-                {title: 'Projects', value: 'projects'},
-                {title: 'Experience', value: 'experience'},
-                {title: 'Credentials', value: 'credentials'},
-                {title: 'Contact', value: 'contact'},
-            ]
-        },
-        initialValue: 'projects',
-        validation: Rule => Rule.required()
+      name: 'ctaButtonActionType',
+      title: 'Aksi Tombol CTA',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Pindah ke Seksi Internal', value: 'internal'},
+          {title: 'Buka Link/File Eksternal', value: 'external'},
+        ],
+        layout: 'radio'
+      },
+      initialValue: 'internal'
     }),
-     defineField({
-        name: 'dynamicHeadlines',
-        title: 'Daftar Headline Dinamis',
-        type: 'array',
-        description: 'Teks yang akan ditampilkan bergantian. Contoh: Full-Stack Developer, Web3 Enthusiast, dll.',
-        of: [{type: 'string'}]
+    
+    defineField({
+      name: 'ctaInternalLink',
+      title: 'Seksi Internal Tujuan',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Projects', value: 'projects'},
+          {title: 'Experience', value: 'experience'},
+          {title: 'Credentials', value: 'credentials'},
+          {title: 'Contact', value: 'contact'},
+        ]
+      },
+      // Muncul hanya jika 'Aksi Tombol CTA' adalah 'internal'
+      hidden: ({document}) => document?.ctaButtonActionType !== 'internal',
+      initialValue: 'projects'
+    }),
+
+    defineField({
+      name: 'ctaExternalUrl',
+      title: 'URL Eksternal Tujuan',
+      description: 'Masukkan link lengkap (misal: link CV, link proyek khusus)',
+      type: 'url',
+      // Muncul hanya jika 'Aksi Tombol CTA' adalah 'external'
+      hidden: ({document}) => document?.ctaButtonActionType !== 'external'
+    }),
+    
+    // Field untuk mengunggah CV langsung ke Sanity (LEBIH BAIK)
+    defineField({
+        name: 'cvFile',
+        title: 'File CV (PDF)',
+        description: 'Unggah file CV Anda di sini. Jika diisi, ini akan lebih diprioritaskan daripada URL eksternal di atas untuk tautan CV.',
+        type: 'file',
+        options: {
+            accept: '.pdf'
+        }
+    }),
+
+    defineField({
+      name: 'dynamicHeadlines',
+      title: 'Daftar Headline Dinamis',
+      type: 'array',
+      of: [{type: 'string'}]
     })
   ],
 })

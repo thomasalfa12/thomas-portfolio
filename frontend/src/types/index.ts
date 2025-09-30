@@ -21,8 +21,11 @@ export type Profile = {
   profileImage: SanityImage;
   shortIntro?: string;
   ctaButtonText?: string;
-  ctaButtonLink?: string;
-  // ▼▼▼ TAMBAHKAN PROPERTI INI ▼▼▼
+  // Tambahkan field-field baru
+  ctaButtonActionType?: 'internal' | 'external';
+  ctaInternalLink?: SectionId;
+  ctaExternalUrl?: string;
+  cvUrl?: string; // Kita akan dapatkan ini dari 'cvFile'
   dynamicHeadlines?: string[];
 };
 

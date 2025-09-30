@@ -3,13 +3,16 @@
 import { client } from "@/sanity/lib/client";
 import { Profile, Experience, Project, Credential, GithubRepo,  ContactInfo  } from "@/types";
 
-// --- PROFILE ---
 export async function getProfile(): Promise<Profile> {
-  // Query-nya tidak perlu diubah, karena `...` sudah mengambil semua field
-  const query = `*[_type == "profile"][0]`; 
+  // Query untuk mengambil URL dari file CV yang diunggah
+  const query = `*[_type == "profile"][0]{
+    ...,
+    "cvUrl": cvFile.asset->url
+  }`;
   const data = await client.fetch(query);
   return data;
 }
+
 
 // --- EXPERIENCES ---
 export async function getExperiences(): Promise<Experience[]> {
