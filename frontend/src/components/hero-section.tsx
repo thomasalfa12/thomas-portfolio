@@ -96,7 +96,7 @@ export function HeroSection({ profile, setActiveSection }: HeroProps) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
-      className="w-full flex-grow flex items-center"
+      className="w-full flex-grow flex items-center min-h-[70vh] pt-12 md:pt-0"
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         {/* Kolom Kiri: Gambar Profil */}
@@ -123,6 +123,7 @@ export function HeroSection({ profile, setActiveSection }: HeroProps) {
                 fill
                 sizes="(max-width: 768px) 256px, 320px"
                 className="object-cover rounded-full border-4 border-card shadow-xl"
+                // PERBAIKAN LCP: 'priority' memastikan gambar ini dimuat paling pertama
                 priority
               />
             </motion.div>
