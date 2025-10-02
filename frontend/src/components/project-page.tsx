@@ -38,7 +38,8 @@ export function ProjectsPage({
           My Projects
         </h2>
         <p className="text-sm md:text-base text-muted-foreground max-w-2xl mx-auto">
-          Jelajahi karya-karya pilihan atau lihat semua arsip saya.
+          ✨ Discover my featured projects or explore the full archive of my
+          work.
         </p>
       </div>
 

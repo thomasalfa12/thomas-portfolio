@@ -95,8 +95,7 @@ export function Experience({ experiences }: ExperienceProps) {
             My Journey
           </h2>
           <p className="mt-2 text-lg text-muted-foreground max-w-2xl">
-            Setiap langkah adalah pengalaman belajar yang membentuk keahlian
-            saya.
+            Every milestone is a learning journey that has shaped my skills
           </p>
         </div>
 
