@@ -1,14 +1,18 @@
 "use client";
 
-import { useState, useMemo, ReactNode } from "react";
+import { useState, useMemo, ReactNode, Suspense } from "react";
 import { AnimatePresence } from "framer-motion";
 import { HeroSection } from "@/components/hero-section";
-import { Experience as ExperienceSection } from "@/components/experience";
-import { ProjectsPage } from "@/components/project-page";
-import { Credentials as CredentialsSection } from "@/components/credentials";
-import { Contact as ContactSection } from "@/components/contact";
-import { InteractiveDock } from "@/components/interactive-dock";
 import { SkillsSection } from "@/components/skill-section";
+import { InteractiveDock } from "@/components/interactive-dock";
+
+// Impor komponen "lazy" yang baru kita buat
+import {
+  LazyExperienceSection,
+  LazyProjectsPage,
+  LazyCredentialsSection,
+  LazyContactSection,
+} from "@/components/lazy-section";
 
 import {
   Profile,
@@ -31,6 +35,13 @@ interface ClientPageProps {
   credentials: Credential[];
   contactInfo: ContactInfo;
 }
+
+// Komponen loading sederhana untuk fallback Suspense
+const LoadingSpinner = () => (
+  <div className="w-full h-full flex items-center justify-center">
+    <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+  </div>
+);
 
 export default function ClientPage({
   profile,
@@ -62,15 +73,16 @@ export default function ClientPage({
           <SkillsSection skills={skills} />
         </div>
       ),
-      experience: <ExperienceSection experiences={experiences} />,
+      // Gunakan komponen "lazy" di sini
+      experience: <LazyExperienceSection experiences={experiences} />,
       projects: (
-        <ProjectsPage
+        <LazyProjectsPage
           sanityProjects={sanityProjects}
           githubRepos={githubRepos}
         />
       ),
-      credentials: <CredentialsSection credentials={credentials} />,
-      contact: <ContactSection contactInfo={contactInfo} />,
+      credentials: <LazyCredentialsSection credentials={credentials} />,
+      contact: <LazyContactSection contactInfo={contactInfo} />,
     }),
     [
       profile,
@@ -86,13 +98,14 @@ export default function ClientPage({
 
   return (
     <main className="relative w-full min-h-screen flex flex-col items-center bg-background px-4 md:px-6">
-      {/* Kontainer utama yang simpel dengan padding bawah untuk dock */}
-      <div className="w-full max-w-6xl flex-grow pt-8 pb-24">
+      <div className="w-full max-w-7xl flex-grow pt-8 pb-24">
         <AnimatePresence mode="wait">
-          {sectionComponents[activeSection]}
+          {/* Bungkus dengan Suspense untuk menangani loading komponen lazy */}
+          <Suspense fallback={<LoadingSpinner />}>
+            {sectionComponents[activeSection]}
+          </Suspense>
         </AnimatePresence>
       </div>
-
       <InteractiveDock
         sections={sections}
         activeSection={activeSection}
